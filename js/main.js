@@ -1,163 +1,120 @@
 /*
-  Задача 1.
-  В бесконечном цикле делается запрос на ввод двух чисел (два отдельных вызова функции prompt()). 
-  Числа сравниваются между собой, и выводится одна из трёх фраз: «числа равны», 
-  «первое число меньше», «второе число меньше». Если пользователь ввёл не число, 
-  выводится фраза «первый ввод – не число» (или «второй ввод – не число»), и выполнение 
-  скрипта прекращается.
+Задача 1. Дан массив пользователей [{name: 'Vasya', age: 24}, 
+{name: 'Petya', age: 12}, {name: 'Fedya', age: 6}, {name: 'Ann', age: 18}, 
+{name: 'Nastya', age: 40} ]. Отсортируйте его по возрасту.
 */
 
-var a, b;
+var arr = [
+  { name: "Vasya", age: 24 },
+  { name: "Petya", age: 12 },
+  { name: "Fedya", age: 6 },
+  { name: "Ann", age: 18 },
+  { name: "Nastya", age: 40 },
+];
 
-for (;;) {
-  a = +prompt("Введите первое число", 0);
-  if (isNaN(a)) {
-    alert("Первый ввод – не число");
-    break;
-  }
+arr.sort(function (a, b) {
+  return a.age - b.age;
+});
 
-  b = +prompt("Введите второе число", 0);
-  if (isNaN(b)) {
-    alert("Второй ввод – не число");
-    break;
-  }
-  compareNumbers(a, b);
-}
-
-function compareNumbers(a, b) {
-  if (a === b) {
-    alert("Числа равны");
-  } else if (a < b) {
-    alert("Первое число меньше");
-  } else if (a > b) {
-    alert("Второе число меньше");
-  }
-}
+console.log(arr);
 
 /*
-Задача 2.
-Многоквартирный дом характеризуется следующими тремя показателями: 
-этажность (1-25), число подъездов (1-10), количество квартир на лестничной площадке (1-20). 
-Скрипт запрашивает эти показатели и номер квартиры. Выводится номер подъезда, в котором 
-находится указанная квартира. При вводе некорректных данных предусмотреть 
-генерацию исключительных ситуаций.
+Задача 2. Напишите функцию filterFalse(arr), которая очищает массив от ложных 
+(false) значений: false, null, undefined, 0, –0, NaN и "" (пустая строка).
 */
 
-function getEntrance() {
-  function isCheck(minNumber, maxNumber, value) {
+var arrNum = [NaN, 0, 77, false, -17, "", undefined, 99, null];
+function filterFalse(arrNum) {
+  var result = arrNum.filter(function (item) {
     return (
-      minNumber &&
-      maxNumber &&
-      value &&
-      value >= minNumber &&
-      value <= maxNumber
+      item !== null &&
+      item !== undefined &&
+      item !== 0 &&
+      item !== false &&
+      item !== "" &&
+      item > 0 &&
+      !isNaN(item)
     );
-  }
+  });
 
-  var floorQuantity, entranceQuantity, flatQuantity;
+  return result;
+}
+console.log(filterFalse(arrNum));
 
-  while (true) {
-    floorQuantity = +prompt("Введите колличество этажей от 1 до 25");
-    if (isCheck(1, 25, floorQuantity)) break;
-    alert("Введите корректное значение");
-  }
+// или
 
-  while (true) {
-    entranceQuantity = +prompt("Введите колличество подъездов от 1 до 10");
-    if (isCheck(1, 10, entranceQuantity)) break;
-    alert("Введите корректное значение");
-  }
+function filterFalse(arrNum) {
+  var result = arrNum.filter(function (item) {
+    if (item && item > 0) {
+      return item;
+    }
+  });
 
-  while (true) {
-    flatQuantity = +prompt(
-      "Введите колличество квартир на лестничной площадке от 01 до 20"
-    );
-    if (isCheck(1, 20, flatQuantity)) break;
-    alert("Введите корректное значение");
-  }
+  return result;
+}
+console.log(filterFalse(arrNum));
 
-  var flatCount = floorQuantity * entranceQuantity * flatQuantity;
+/*
+Задача 3. Напишите функцию find(arr, value), которая вернет массив всех 
+индексов значения. (Не использовать метод find).
+*/
 
-  while (true) {
-    var flatNumber = +prompt("Введите номер квартиры");
-    if (flatNumber > flatCount || !flatNumber)
-      alert("Вы ввели не допустимое значение");
-    break;
-  }
+var arr2 = [4, 0, 20, 10, null, "string", 20, NaN, 20, undefined, 20];
 
-  for (entrance = 1; entrance <= entranceQuantity; entrance++) {
-    if (flatNumber <= floorQuantity * flatQuantity * entrance) {
-      alert("Ваша квартира находится в подъезде " + entrance);
-      break;
+function find(arr2, value) {
+  var resultIndex = [];
+  for (var i = 0; i < arr2.length; i++) {
+    if (arr2[i] === value) {
+      resultIndex.push(i);
     }
   }
+  return resultIndex;
 }
-getEntrance();
+
+console.log(find(arr2, 20));
 
 /*
-  Задача 3.
-  Написать функцию, получающую на вход два числа. 
-  Если оба числа чётные - функция возвращает их произведение. 
-  Если оба числа нечётные - функция возвращает их сумму. 
-  Если одно из чисел чётное, а второе нечётное - функция возвращает это нечётное число.
+Задача 4. Создать функцию createMatrix(row, col), принимающую количество строк и количество 
+столбцов матрицы и возвращающее матрицу (массив массивов), заполненную случайными числами 
+в диапазоне от 0 до 100 (random).
 */
 
-function getNumber(num1, num2) {
-  if (num1 % 2 === 0 && num2 % 2 === 0) {
-    return num1 * num2;
-  } else if (num1 % 2 !== 0 && num2 % 2 !== 0) {
-    return num1 + num2;
-  } else {
-    return num1 % 2 ? num1 : num2;
-  }
-}
-console.log(getNumber(6, 7));
+function createMatrix(row, col) {
+  var resultMatrix = [];
 
-/*
-Задача 4
-На декартовой плоскости прямоугольник задаётся четырьмя точками – своими вершинами 
-(у каждой точки две числовые координаты). Вершины перечисляются последовательно, в порядке обхода 
-по часовой стрелке, начиная с левой верхней вершины.
-Написать функцию, проверяющую, образуют ли заданные восемь чисел вершины некоего прямоугольника.
-*/
-
-function checkRectangle() {
-  var x1, x2, x3, x4, y1, y2, y3, y4;
-
-  x1 = +prompt("Введите значение x1:");
-  y1 = +prompt("Введите значение y1:");
-  x2 = +prompt("Введите значение x2:");
-  y2 = +prompt("Введите значение y2:");
-  x3 = +prompt("Введите значение x3:");
-  y3 = +prompt("Введите значение y3:");
-  x4 = +prompt("Введите значение x4:");
-  y4 = +prompt("Введите значение y4:");
-
-  function isRectangle(x1, x2, x3, x4, y1, y2, y3, y4) {
-    return x1 === x4 && y1 === y2 && x2 === x3 && y3 === y4;
+  for (var i = 0; i < row; i++) {
+    resultMatrix[i] = [];
+    for (var j = 0; j < col; j++) {
+      var random = Math.ceil(Math.random() * 100);
+      resultMatrix[i].push(random);
+    }
   }
 
-  isRectangle(x1, x2, x3, x4, y1, y2, y3, y4)
-    ? alert("Фигура - прямоугольник")
-    : alert("Не прямоугольник");
+  return resultMatrix;
 }
-checkRectangle();
+console.log(createMatrix(4, 6));
 
 /*
-Задача 5.
-Функция getSequence(start, step) при вызове возвращает функцию-генератор. 
-Каждый вызов генератора возвращает новое число в числовой последовательности. 
-start – стартовое число (по умолчанию 0). step – шаг приращения (по умолчанию 1).
+Задача 5. 
+Реализуйте функцию flatten(), которая в случае, если массив обладает уровнями вложенности, приведёт 
+его к элементарному виду (вложенность может быть любой глубины).
+Пример: flatten([1, [2], [3, [4]]]) вернёт [1, 2, 3, 4]
 */
 
-function getSequence(start, step) {
-  start = start || 0;
-  step = step || 1;
-  return function createGenerator() {
-    return (start = start + step);
-  };
+var arrFlatten = [1, [2], [3, [4, [true, 56], ["string", 8], [28]]]];
+
+function flatten(arrFlatten) {
+  var resultFlatten = [];
+
+  for (var i = 0; i < arrFlatten.length; i++) {
+    var element = arrFlatten[i];
+    if (Array.isArray(element)) {
+      resultFlatten = resultFlatten.concat(flatten(element));
+    } else {
+      resultFlatten.push(element);
+    }
+  }
+
+  return resultFlatten;
 }
-var test = getSequence(10, 5);
-console.log(test());
-console.log(test());
-console.log(test());
+console.log(flatten(arrFlatten));
