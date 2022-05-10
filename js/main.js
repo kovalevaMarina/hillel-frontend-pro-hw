@@ -1,47 +1,43 @@
 /*
-Задача 1. Напишите функцию toSum для вычисления суммы массива целых чисел.
+Задача 1. Создайте замыкание: функция makePassword получает пароль в аргументе и возвращает внутреннюю функцию, 
+которая принимает введенную строку и возвращает булевое значение true, если введенная строка совпадает 
+с паролем и false – если не совпадает.
 */
 
-var array = [2, 3, 4, 5, 6, 7];
-
-function toSum(array) {
-  var sum = 0;
-  for (var i = 0; i < array.length; i++) {
-    var elem = array[i];
-    sum += elem;
-  }
-  return sum;
+function makePassword(password) {
+  return function checkPassword(input) {
+    return input === password;
+  };
 }
-console.log(toSum(array));
 
-// or
-
-function toSum(array) {
-  if (array.length == 1) {
-    return array[0];
-  }
-  var item = array.shift();
-  return item + toSum(array);
-}
-console.log(toSum(array));
+var test = makePassword("kkk555");
+console.log("no valid =>", test("hryflo"));
+console.log("valid =>", test("kkk555"));
 
 /*
-Задача 2. Ваша задача - сделать функцию, которая возвращает сумму последовательности 
-целых чисел. Последовательность определяется тремя неотрицательными значениями: начало, 
-конец, шаг. Если начальное значение больше конца, функция должна вернуть 0.
+Задание 2. Сделайте функцию, каждый вызов который будет генерировать случайные числа от 1 до 100, но так, чтобы 
+они не повторялись, пока не будут перебраны все числа из этого промежутка. Решите задачу через замыкания - 
+в замыкании должен хранится массив чисел, которые уже были сгенерированы функцией.
 */
 
-function getSum(start, end, step) {
-  if (!start || start < 0 || !end || end < 0 || !step || step < 0) {
-    return "error";
-  } else if (start > end) {
-    return 0;
-  } else {
-    return start + getSum(start + step, end, step);
-  }
+function getRandom() {
+  var arrNumber = [];
+  return function getNumbers() {
+    var maxNumber = 100;
+    var random = Math.ceil(Math.random() * maxNumber);
+    if (arrNumber.length === maxNumber) {
+      return "error";
+    }
+    if (arrNumber.includes(random)) {
+      return getNumbers();
+    } else {
+      arrNumber.push(random);
+      return random;
+    }
+  };
 }
-console.log("start negative =>", getSum(-1, 10, 2));
-console.log("end negative =>", getSum(1, -10, 2));
-console.log("step zero =>", getSum(1, 10, 0));
-console.log("valid =>", getSum(2, 20, 3));
-console.log("start null =>", getSum(null, 20, 5));
+
+var test2 = getRandom();
+for (var i = 0; i < 100; i++) {
+  console.log(test2());
+}
