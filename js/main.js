@@ -1,43 +1,54 @@
-/*
-Задача 1. Создайте замыкание: функция makePassword получает пароль в аргументе и возвращает внутреннюю функцию, 
-которая принимает введенную строку и возвращает булевое значение true, если введенная строка совпадает 
-с паролем и false – если не совпадает.
+/* Задача "Будильник".
+Мы должны ввести время в формате (10:20, чч:мм). На странице отображаются часы с 
+текущим временем. При достижении указанного времени выводим сообщение «Звонок»
 */
 
-function makePassword(password) {
-  return function checkPassword(input) {
-    return input === password;
-  };
+// Вариант 1
+var timeAlarm = prompt(
+  "Enter the time in hh:mm format what time you want to wake up"
+);
+
+function myClock() {
+  var date = new Date();
+  var currentHours = date.getHours();
+  var currentMinutes = date.getMinutes();
+
+  if (currentHours < 10) {
+    currentHours = "0" + currentHours;
+  }
+  if (currentMinutes < 10) {
+    currentMinutes = "0" + currentMinutes;
+  }
+
+  var currentTotalTime = currentHours + ":" + currentMinutes;
+  document.getElementById("clock").innerHTML = currentTotalTime;
+
+  if (currentTotalTime === timeAlarm) {
+    alert("It's time to wake up!");
+    clearInterval(clock);
+  }
 }
+var clock = setInterval(myClock, 1000);
 
-var test = makePassword("kkk555");
-console.log("no valid =>", test("hryflo"));
-console.log("valid =>", test("kkk555"));
+// Вариант 2
+var timeAlarm2 = prompt(
+  "Enter the time in hh:mm format what time you want to wake up"
+);
+var timeAlarm2Arr = timeAlarm2.split(":");
 
-/*
-Задание 2. Сделайте функцию, каждый вызов который будет генерировать случайные числа от 1 до 100, но так, чтобы 
-они не повторялись, пока не будут перебраны все числа из этого промежутка. Решите задачу через замыкания - 
-в замыкании должен хранится массив чисел, которые уже были сгенерированы функцией.
-*/
+function myClock2() {
+  var date = new Date();
+  var currentTime = date.toLocaleTimeString();
+  var currentTimeArr = currentTime.split(":");
 
-function getRandom() {
-  var arrNumber = [];
-  return function getNumbers() {
-    var maxNumber = 100;
-    var random = Math.ceil(Math.random() * maxNumber);
-    if (arrNumber.length === maxNumber) {
-      return "error";
-    }
-    if (arrNumber.includes(random)) {
-      return getNumbers();
-    } else {
-      arrNumber.push(random);
-      return random;
-    }
-  };
+  document.getElementById("clock").innerHTML = currentTime;
+
+  if (
+    timeAlarm2Arr[0] === currentTimeArr[0] &&
+    timeAlarm2Arr[1] === currentTimeArr[1]
+  ) {
+    alert("It's time to wake up!");
+    clearInterval(clock2);
+  }
 }
-
-var test2 = getRandom();
-for (var i = 0; i < 100; i++) {
-  console.log(test2());
-}
+var clock2 = setInterval(myClock2, 1000);
