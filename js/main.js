@@ -1,54 +1,75 @@
-/* Задача "Будильник".
-Мы должны ввести время в формате (10:20, чч:мм). На странице отображаются часы с 
-текущим временем. При достижении указанного времени выводим сообщение «Звонок»
-*/
-
-// Вариант 1
-var timeAlarm = prompt(
-  "Enter the time in hh:mm format what time you want to wake up"
-);
-
-function myClock() {
-  var date = new Date();
-  var currentHours = date.getHours();
-  var currentMinutes = date.getMinutes();
-
-  if (currentHours < 10) {
-    currentHours = "0" + currentHours;
+function isCompare(data1, data2) {
+  // получить тип
+  function getType(type) {
+    return Object.prototype.toString
+      .call(type)
+      .replace("[object ", "")
+      .replace("]", "");
   }
-  if (currentMinutes < 10) {
-    currentMinutes = "0" + currentMinutes;
+  // проверка на объект
+  function isObject(obj) {
+    return getType(obj) === "Object";
+  }
+  // проверка на массив
+  function isArray(arr) {
+    return getType(arr) === "Array";
+  }
+  // проверка на другое
+  function isOther(type1, type2) {
+    return getType(type1) === getType(type2);
   }
 
-  var currentTotalTime = currentHours + ":" + currentMinutes;
-  document.getElementById("clock").innerHTML = currentTotalTime;
-
-  if (currentTotalTime === timeAlarm) {
-    alert("It's time to wake up!");
-    clearInterval(clock);
+  // ------------------- логика выполнения сравнений
+  // 1. cравнение для примитивов по факту
+  if (data1 === data2) {
+    return true;
   }
-}
-var clock = setInterval(myClock, 1000);
-
-// Вариант 2
-var timeAlarm2 = prompt(
-  "Enter the time in hh:mm format what time you want to wake up"
-);
-var timeAlarm2Arr = timeAlarm2.split(":");
-
-function myClock2() {
-  var date = new Date();
-  var currentTime = date.toLocaleTimeString();
-  var currentTimeArr = currentTime.split(":");
-
-  document.getElementById("clock").innerHTML = currentTime;
-
+  // 2. проверка на объект и массив
   if (
-    timeAlarm2Arr[0] === currentTimeArr[0] &&
-    timeAlarm2Arr[1] === currentTimeArr[1]
+    !isObject(data1) &&
+    !isArray(data1) &&
+    !isObject(data2) &&
+    !isArray(data2)
   ) {
-    alert("It's time to wake up!");
-    clearInterval(clock2);
+    return false;
   }
+  // 3. Убедиться, что это два с одинаковым типом, т.е. и то и то объект или массив
+  if (
+    !isOther(data1, data2) ||
+    Object.keys(data1).length !== Object.keys(data2).length
+  ) {
+    return false;
+  }
+  // 4. Равны ли объекты или нет
+  for (var key of Object.keys(data1)) {
+    // сравнение ключей объекта
+    if (!data2.hasOwnProperty(key)) {
+      return false;
+    }
+    // сравнение значений объекта
+    if (!isCompare(data1[key], data2[key])) {
+      return false;
+    }
+  }
+  // вместо for можно использовать JSON.toString()
+  if (JSON.toString(data1) !== JSON.toString(data2)) {
+    return false;
+  }
+  return true;
 }
-var clock2 = setInterval(myClock2, 1000);
+
+// сравнение должно быть, как по типу, так и по значению
+console.log(isCompare(5, 5)); // сравнение 1 true
+console.log(isCompare(5, 6)); // сравнение 1 false
+console.log(isCompare(null, null)); // сравнение 1 true
+console.log(isCompare(null, {})); // сравнение 1 false
+console.log(isCompare([], {})); // сравнение 1 false
+console.log(isCompare({ a1: 1, b: 2 }, { a1: 1, b: 2 })); // сравнение 1 false. Result true after условий
+console.log(isCompare([1, 2, 3], [1, 2, 3])); // сравнение 1 false. Result true after условий
+console.log(isCompare([1, 2, 3, 4, { c: 3 }], [1, 2, 3, 4, { c: 3 }]));
+// проверка функции getType
+console.log(
+  Object.prototype.toString.call({}).replace("[object ", "").replace("]", "")
+);
+
+console.log(JSON.stringify([1, 2, 3, 4, { c: 13 }]));
