@@ -23,7 +23,7 @@ var users = [
 
 users.forEach(function (item) {
   var bodyTag = document.querySelector("body");
-  var elemName = document.createElement("h1");
+  var elemName = document.createElement("h2");
   var elemPicture = document.createElement("img");
   var elemDescription = document.createElement("p");
 
