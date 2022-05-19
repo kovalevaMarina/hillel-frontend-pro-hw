@@ -1,75 +1,45 @@
-function isCompare(data1, data2) {
-  // получить тип
-  function getType(type) {
-    return Object.prototype.toString
-      .call(type)
-      .replace("[object ", "")
-      .replace("]", "");
-  }
-  // проверка на объект
-  function isObject(obj) {
-    return getType(obj) === "Object";
-  }
-  // проверка на массив
-  function isArray(arr) {
-    return getType(arr) === "Array";
-  }
-  // проверка на другое
-  function isOther(type1, type2) {
-    return getType(type1) === getType(type2);
-  }
+// Есть массив пользователей. Cгенерить DOM - элементы, и отобразить
 
-  // ------------------- логика выполнения сравнений
-  // 1. cравнение для примитивов по факту
-  if (data1 === data2) {
-    return true;
-  }
-  // 2. проверка на объект и массив
-  if (
-    !isObject(data1) &&
-    !isArray(data1) &&
-    !isObject(data2) &&
-    !isArray(data2)
-  ) {
-    return false;
-  }
-  // 3. Убедиться, что это два с одинаковым типом, т.е. и то и то объект или массив
-  if (
-    !isOther(data1, data2) ||
-    Object.keys(data1).length !== Object.keys(data2).length
-  ) {
-    return false;
-  }
-  // 4. Равны ли объекты или нет
-  for (var key of Object.keys(data1)) {
-    // сравнение ключей объекта
-    if (!data2.hasOwnProperty(key)) {
-      return false;
-    }
-    // сравнение значений объекта
-    if (!isCompare(data1[key], data2[key])) {
-      return false;
-    }
-  }
-  // вместо for можно использовать JSON.toString()
-  if (JSON.toString(data1) !== JSON.toString(data2)) {
-    return false;
-  }
-  return true;
-}
+var users = [
+  {
+    name: "Panda Vasya",
+    url: "https://cutt.ly/Hn90ez7",
+    description:
+      "Несмотря на то, что панды относятся к отряду хищных, фактически они питаются почти исключительно (более чем на 99 %) бамбуком (любым из 25 видов, присутствующих в дикой среде обитания). В день взрослая панда съедает до 30 кг бамбука и побегов.",
+  },
+  {
+    name: "Panda Petya",
+    url: "http://desktopwallpapers.org.ua/large/201412/38708.jpg",
+    description:
+      "Несмотря на то, что панды относятся к отряду хищных, Для защиты от бамбуковых щепок пищевод и желудок выстланы толстым слоем упругой слизистой ткани. Если в каком-либо месте после цветения погибает весь бамбук, то живущим там пандам грозит смерть от голода",
+  },
+  {
+    name: "Panda Fedya",
+    url: "http://desktopwallpapers.org.ua/large/201305/26931.jpg",
+    description:
+      "Несмотря на то, что панды относятся к отряду хищных, (подобные случаи отмечались в 1975 и 1983 годах). По мнению некоторых учёных, гиперзависимость медведей от бамбука могла развиться относительно недавно — около 5000 лет назад[11]. Изредка включают в свой рацион растения других видов. Кроме того, как и все медвежьи, панды всеядны: при доступности едят яйца, мелких птиц, зверьков, рыбу и некоторых насекомых, иногда — падаль",
+  },
+];
 
-// сравнение должно быть, как по типу, так и по значению
-console.log(isCompare(5, 5)); // сравнение 1 true
-console.log(isCompare(5, 6)); // сравнение 1 false
-console.log(isCompare(null, null)); // сравнение 1 true
-console.log(isCompare(null, {})); // сравнение 1 false
-console.log(isCompare([], {})); // сравнение 1 false
-console.log(isCompare({ a1: 1, b: 2 }, { a1: 1, b: 2 })); // сравнение 1 false. Result true after условий
-console.log(isCompare([1, 2, 3], [1, 2, 3])); // сравнение 1 false. Result true after условий
-console.log(isCompare([1, 2, 3, 4, { c: 3 }], [1, 2, 3, 4, { c: 3 }]));
-// проверка функции getType
-console.log(
-  Object.prototype.toString.call({}).replace("[object ", "").replace("]", "")
-);
+users.forEach(function (item) {
+  var bodyTag = document.querySelector("body");
+  var elemName = document.createElement("h1");
+  var elemPicture = document.createElement("img");
+  var elemDescription = document.createElement("p");
 
-console.log(JSON.stringify([1, 2, 3, 4, { c: 13 }]));
+  elemName.className = "title";
+  elemPicture.className = "main-img";
+  elemDescription.className = "main-desc";
+
+  elemPicture.style.cssText = "width: 750px; height: 500px;";
+  elemDescription.style.cssText = "max-width: 750px";
+
+  elemName.innerHTML = item.name;
+  bodyTag.append(elemName);
+
+  elemPicture.setAttribute("src", item.url);
+  elemName.after(elemPicture);
+
+  elemDescription.innerHTML = item.description;
+  elemPicture.after(elemDescription);
+});
