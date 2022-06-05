@@ -48,8 +48,8 @@ priceInput.addEventListener("change", function (e) {
 
 // e.target.value + ".00"
 
-function isValidURL(string) {
-  var res = string.test(/http\:\/\//g);
-  return res !== null;
-}
-console.log(isValidURL("http://www.nine.com.ua/uk"));
+// function isValidURL(string) {
+//   var res = string.test(/http\:\/\//g);
+//   return res !== null;
+// }
+// console.log(isValidURL("http://www.nine.com.ua/uk"));
