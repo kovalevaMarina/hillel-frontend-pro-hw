@@ -1,55 +1,55 @@
-var productForm = document.forms.product;
-var nameInput = productForm.name;
-var descriptionMsg = productForm.description;
-var priceInput = productForm.price;
-var measureInput = productForm.measure;
-var linkInput = productForm.link;
+/* 
+Задача 1. Дана строка 'ahb acb aeb aeeb adcb axeb'. Напишите регулярку, которая 
+найдет строки ahb, acb, aeb по шаблону: буква 'a', любой символ, буква 'b'.
+*/
 
-// проверка на Caps Lock для input/textarea
+function hometask1() {
+  var string = "ahb acb aeb aeeb adcb axeb";
+  var regex = /a.b/g;
+  return string.match(regex);
+}
+console.log(hometask1());
 
-function capitalazeFirstLetters(str) {
-  return str.replace(/([A-Z]|[А-ЯЁ])[A-ZА-ЯЁ]{1,}/g, function ($1) {
-    var resultStr = $1.charAt(0).toUpperCase() + $1.substr(1).toLowerCase();
-    return resultStr;
+/*
+Задача 2. Дана строка '*+ *q+ *qq+ *qqq+ *qqq qqq+'. Напишите регулярку, 
+которая найдет строки *q+, *qq+, *qqq+, не захватив остальные.
+*/
+
+function hometask2() {
+  var string = "*+ *q+ *qq+ *qqq+ *qqq qqq+'";
+  var regex = /\*q{1,3}\+/g;
+  return string.match(regex);
+}
+console.log(hometask2());
+
+/*
+Задача 3. Выбрать существующие даты между 1000 и 2012 годом. Секунды могут быть 
+опущены. Облегчаем задачу: в каждом месяце 30 дней.
+Результат:
+2012/09/18 12:10 — true
+2013/09/09 09:09 — false (после 2012)
+*/
+
+function hometask3() {
+  var string1 = "2012/09/18 12:10"; // true
+  var string2 = "2013/09/09 09:09"; // false
+  var regex =
+    /^([1000-2012]{4})\/[0-1][0-9]\/[0-3][0-9]\s[0-2][0-9]\:[0-5][0-9]/g;
+  return regex.test(string1);
+}
+console.log(hometask3());
+
+/*Задача 4. Убрать повторяющиеся пробелы и знаки табуляции, оставить по одному 
+пробелу между словами и по два между предложениями.
+Extra   spaces => Extra spaces
+Sentence.   Sentence. => Sentence.  Sentence.
+*/
+
+function hometask4() {
+  var string1 = "Extra   spaces";
+  var string2 = "Sentence.   Sentence.";
+  return string1.replace(/(\s{2,})|(\.\s{3,})/g, function (match) {
+    return match.includes(".") ? ".  " : " ";
   });
 }
-
-nameInput.addEventListener("change", function (e) {
-  var regex = /^.{1,25}/;
-  var result = e.target.value.match(regex) || [];
-  e.target.value = capitalazeFirstLetters(result[0]);
-});
-
-descriptionMsg.addEventListener("change", function (e) {
-  var regexDesc = /^.{1,150}/;
-  var resultDesc = e.target.value.match(regexDesc);
-  e.target.value = capitalazeFirstLetters(resultDesc[0]);
-});
-
-measureInput.addEventListener("change", function (e) {
-  var regexMeasure = /^(шт|кг|л|ед)$/;
-  var resultMeasure = e.target.value.match(regexMeasure) || [];
-  if (resultMeasure[0]) {
-    e.target.value = resultMeasure[0];
-    measureInput.style.borderColor = "black";
-  } else {
-    measureInput.style.borderColor = "red";
-  }
-});
-
-priceInput.addEventListener("change", function (e) {
-  var regexPrice = /^\d*(\,|\.)\d{2}/;
-  var resultPrice = e.target.value.match(regexPrice) || [];
-  e.target.value = resultPrice
-    ? resultPrice[0]
-    : Math.floor(e.target.value * 100) / 100;
-  console.log(resultPrice);
-});
-
-// e.target.value + ".00"
-
-function isValidURL(string) {
-  var res = string.test(/http\:\/\//g);
-  return res !== null;
-}
-console.log(isValidURL("http://www.nine.com.ua/uk"));
+console.log(hometask4());
