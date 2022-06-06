@@ -65,4 +65,3 @@ productForm.addEventListener("submit", function (e) {
     ? (linkInput.value = "https://" + linkInput.value)
     : linkInput.value;
 });
-// название товара
