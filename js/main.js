@@ -8,7 +8,7 @@ function hometask1() {
   var regex = /a.b/g;
   return string.match(regex);
 }
-console.log(hometask1());
+hometask1();
 
 /*
 Задача 2. Дана строка '*+ *q+ *qq+ *qqq+ *qqq qqq+'. Напишите регулярку, 
@@ -20,7 +20,7 @@ function hometask2() {
   var regex = /\*q{1,3}\+/g;
   return string.match(regex);
 }
-console.log(hometask2());
+hometask2();
 
 /*
 Задача 3. Выбрать существующие даты между 1000 и 2012 годом. Секунды могут быть 
@@ -37,7 +37,7 @@ function hometask3() {
     /^([1000-2012]{4})\/[0-1][0-9]\/[0-3][0-9]\s[0-2][0-9]\:[0-5][0-9]/g;
   return regex.test(string1);
 }
-console.log(hometask3());
+hometask3();
 
 /*Задача 4. Убрать повторяющиеся пробелы и знаки табуляции, оставить по одному 
 пробелу между словами и по два между предложениями.
@@ -52,4 +52,4 @@ function hometask4() {
     return match.includes(".") ? ".  " : " ";
   });
 }
-console.log(hometask4());
+hometask4();
