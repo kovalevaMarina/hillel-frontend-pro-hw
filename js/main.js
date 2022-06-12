@@ -16,10 +16,22 @@ const worker = {
   days: "",
   role: "",
   getSalary: () => {
-    return worker.rate * worker.days;
+    return this.rate * this.days;
   },
   getListEmployeers: () => {},
   getListProducts: () => {},
+  countAward: () => {
+    let count = 0;
+    return {
+      add: (amount) => {
+        count += amount;
+      },
+      decrease: (amount) => {
+        count -= amount;
+      },
+      getCount: () => count,
+    }
+  },
 };
 
 administrator(worker) {
@@ -29,7 +41,7 @@ administrator(worker) {
     return [];
   },
   getListProducts: () => {
-    return [] // список всех товаров
+    return [];
   },
 }
 
@@ -39,7 +51,7 @@ cashier(worker) {
     return [];
   },
   getListProducts: () => {
-    return [] // список тех товаров, которые продаются
+    return [];
   },
 }
 
@@ -49,7 +61,7 @@ consultant (worker) {
     return null
   },
   getListProducts: (id) => {
-    return [] // список тех товаров, которые к нему относятся
+    return [];
   },
 }
 
