@@ -1,4 +1,4 @@
-class Mammal_cat extends Mammal {
+class MammalCat extends Mammal {
   constructor(specie, favoriteMeals, speed, hasTail, breed, color) {
     super(specie, favoriteMeals, speed, hasTail);
     this.breed = breed;

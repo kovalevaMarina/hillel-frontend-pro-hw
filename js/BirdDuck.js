@@ -1,4 +1,4 @@
-class Bird_duck extends Bird {
+class BirdDuck extends Bird {
   constructor(specie, favoriteMeals, maxHeight, hasCrest) {
     super(specie, favoriteMeals, maxHeight, hasCrest);
     this.hasCrest = hasCrest;

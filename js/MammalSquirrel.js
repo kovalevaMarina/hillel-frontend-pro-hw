@@ -1,4 +1,4 @@
-class Mammal_squirrel extends Mammal {
+class MammalSquirrel extends Mammal {
   constructor(specie, favoriteMeals, speed, hasTail, fluffyWool) {
     super(specie, favoriteMeals, speed, hasTail);
     this.fluffyWool = fluffyWool;

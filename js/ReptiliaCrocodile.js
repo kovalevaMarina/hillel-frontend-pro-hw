@@ -1,4 +1,4 @@
-class Reptilia_crocodile extends Reptilia {
+class ReptiliaCrocodile extends Reptilia {
   constructor(specie, favoriteMeals, amountPaws, isHunter) {
     super(specie, favoriteMeals, amountPaws, isHunter);
     this.hidden = false;

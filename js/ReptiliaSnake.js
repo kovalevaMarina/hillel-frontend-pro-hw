@@ -1,4 +1,4 @@
-class Reptilia_snake extends Reptilia {
+class ReptiliaSnake extends Reptilia {
   constructor(specie, favoriteMeals, amountPaws, isHunter, hasPoisson) {
     super(specie, favoriteMeals, amountPaws, isHunter);
     this.hasPoisson = hasPoisson;
