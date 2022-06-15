@@ -4,6 +4,6 @@ class MammalSquirrel extends Mammal {
     this.fluffyWool = fluffyWool;
   }
   jump() {
-    return "Squirrel can jump three to four meters forward.";
+    return "Squirrel can jump three to four meters forward!";
   }
 }
