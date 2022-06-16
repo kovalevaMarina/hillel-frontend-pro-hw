@@ -6,8 +6,8 @@ class Animal {
 
   eat(meal) {
     return this.favoriteMeals.includes(meal)
-      ? `They eat ${meal}`
-      : `They do not eat ${meal}`;
+      ? `The ${this.specie} eat ${meal}`
+      : `The ${this.specie} do not eat ${meal}`;
   }
 
   makeNoise(sound) {
