@@ -1,9 +1,11 @@
 class MammalSquirrel extends Mammal {
-  constructor(specie, favoriteMeals, speed, hasTail, fluffyWool) {
+  constructor(specie, favoriteMeals, speed, hasTail, isHungry) {
     super(specie, favoriteMeals, speed, hasTail);
-    this.fluffyWool = fluffyWool;
+    this.isHungry = isHungry;
   }
-  jump() {
-    return "Squirrel can jump three to four meters forward!";
+  hideNut() {
+    return this.isHungry
+      ? `The ${this.specie} is eating the nut.`
+      : `The ${this.specie} is not hungry.`;
   }
 }
