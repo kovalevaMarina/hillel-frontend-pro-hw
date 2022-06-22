@@ -1,1 +1,72 @@
+*, html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+li {
+  list-style-type: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.slider__field {
+  display: flex;
+  justify-content: center;
+}
+
+.slider__btn {
+  color: #027981;
+  font-size: 50px;
+  width: 60px;
+  transition: 0.5s ease;
+}
+
+.slider__btn:hover {
+  background-color: rgba(2,121,129, 0.2);
+}
+
+.slider__wrap {
+  width: 600px;
+  overflow: hidden;
+}
+
+.slider-list {
+  width: 10000px;
+  display: flex;
+  transform: translateX(0px);
+}
+
+.item-img {
+  display: block;
+  width: 600px;
+}
+
+.slider__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.slider__dots--item {
+  width: 25px;
+  height: 25px;
+  margin: 0 6px;
+  background-color: rgba(2,121,129, 0.4);
+  border-radius: 50%;
+}
+
+.dots-active {
+  background-color: rgba(2,121,129, 1)
+}

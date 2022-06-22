@@ -24,10 +24,10 @@ arrowRight.className = "slider__btn btn-rigth";
 arrowRight.innerHTML = ">";
 
 let ul = document.createElement("ul");
-ul.className = "list";
+ul.className = "slider-list";
 
 let sliderDots = document.createElement("div");
-sliderDots.className = "silder__dots";
+sliderDots.className = "slider__dots";
 
 body.prepend(slider);
 slider.prepend(sliderField);
@@ -36,3 +36,70 @@ sliderWrap.before(arrowLeft);
 sliderWrap.after(arrowRight);
 sliderWrap.prepend(ul);
 slider.append(sliderDots);
+
+for (let i = 0; i < slides.length; i++) {
+  let li = document.createElement("li");
+  li.className = "slider-list__item";
+
+  let img = document.createElement("img");
+  img.className = "item-img";
+  img.setAttribute("src", slides[i]);
+
+  let dots = document.createElement("button");
+  dots.className = "slider__dots--item";
+
+  ul.prepend(li);
+  li.prepend(img);
+  sliderDots.prepend(dots);
+}
+
+const buttons = document.querySelectorAll(".slider__btn");
+const items = document.querySelectorAll(".slider-list__item");
+const mover = document.querySelector(".slider-list");
+const dotsBtn = document.querySelectorAll(".slider__dots--item");
+let count = 0;
+items[count].classList.add("active");
+
+const moveRight = () => {
+  const active = mover.querySelector(".active");
+  const next = active.nextElementSibling;
+  let width = 0;
+  if (next) {
+    width = getComputedStyle(next).width;
+    count++;
+    active.classList.remove("active");
+    next.classList.add("active");
+  } else {
+    count = 0;
+    active.classList.remove("active");
+    items[count].classList.add("active");
+  }
+  dotsBtn[count].classList.add("dots-active");
+  console.log(dotsBtn[count]);
+  mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
+};
+
+const moveLeft = () => {
+  const active = mover.querySelector(".active");
+  const prev = active.previousElementSibling;
+  let width = 0;
+  if (prev) {
+    width = getComputedStyle(prev).width;
+    count--;
+    active.classList.remove("active");
+    prev.classList.add("active");
+  } else {
+    count = slides.length - 1;
+    active.classList.remove("active");
+    items[count].classList.add("active");
+  }
+  mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
+};
+
+buttons.forEach((button) => {
+  if (button.classList.contains("btn-rigth")) {
+    button.addEventListener("click", moveRight);
+  } else {
+    button.addEventListener("click", moveLeft);
+  }
+});
