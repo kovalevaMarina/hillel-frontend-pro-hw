@@ -57,41 +57,57 @@ const buttons = document.querySelectorAll(".slider__btn");
 const items = document.querySelectorAll(".slider-list__item");
 const mover = document.querySelector(".slider-list");
 const dotsBtn = document.querySelectorAll(".slider__dots--item");
+
+const dotsFirstActive = document
+  .querySelectorAll(".slider__dots--item")[0]
+  .classList.add("dots-active");
+
 let count = 0;
 items[count].classList.add("active");
 
 const moveRight = () => {
   const active = mover.querySelector(".active");
   const next = active.nextElementSibling;
+  const dotActive = document.querySelector(".dots-active");
+  const dotNext = dotActive.nextElementSibling;
+
   let width = 0;
   if (next) {
     width = getComputedStyle(next).width;
     count++;
     active.classList.remove("active");
     next.classList.add("active");
+    dotActive.classList.remove("dots-active");
+    dotNext.classList.add("dots-active");
   } else {
     count = 0;
     active.classList.remove("active");
     items[count].classList.add("active");
+    dotActive.classList.remove("dots-active");
+    dotsBtn[count].classList.add("dots-active");
   }
-  dotsBtn[count].classList.add("dots-active");
-  console.log(dotsBtn[count]);
   mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
 };
 
 const moveLeft = () => {
   const active = mover.querySelector(".active");
   const prev = active.previousElementSibling;
-  let width = 0;
+  const dotActive = document.querySelector(".dots-active");
+  const dotPrev = dotActive.previousElementSibling;
+  let width = getComputedStyle(items[0]).width;
   if (prev) {
     width = getComputedStyle(prev).width;
     count--;
     active.classList.remove("active");
     prev.classList.add("active");
+    dotActive.classList.remove("dots-active");
+    dotPrev.classList.add("dots-active");
   } else {
     count = slides.length - 1;
     active.classList.remove("active");
     items[count].classList.add("active");
+    dotActive.classList.remove("dots-active");
+    dotsBtn[count].classList.add("dots-active");
   }
   mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
 };
