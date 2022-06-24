@@ -119,3 +119,14 @@ buttons.forEach((button) => {
     button.addEventListener("click", moveLeft);
   }
 });
+
+dotsBtn.forEach((dot, index) => {
+  dot.addEventListener("click", () => {
+    let width = getComputedStyle(items[0]).width;
+    dotsBtn.forEach((elem) => {
+      elem.classList.remove("dots-active");
+    });
+    dot.classList.add("dots-active");
+    mover.style.transform = `translateX(${-parseInt(width) * index}px)`;
+  });
+});
