@@ -20,7 +20,6 @@ let fieldWrap = createElement("div", "field-wrap", wrap);
 let fishka = createElement("img", "fishka-img", fieldWrap, "fishka");
 let cube = createElement("img", "cube-img", wrap, "1");
 let btnWrap = createElement("button", "btn-wrap", wrap);
-
 let result = createElement("div", "result", wrap, undefined, "Start game!");
 
 store = {
