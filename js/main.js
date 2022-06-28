@@ -1,132 +1,111 @@
-var slides = [
-  "https://picsum.photos/500/500",
-  "https://picsum.photos/600/600",
-  "https://picsum.photos/700/700",
-];
-
 let body = document.body;
 
-let slider = document.createElement("div");
-slider.className = "slider";
+const createElement = (
+  tag,
+  nameClass,
+  parent = body,
+  imgName = undefined,
+  text = undefined
+) => {
+  let elem = document.createElement(tag);
+  elem.className = nameClass;
+  if (text) elem.innerHTML = text;
+  if (imgName) elem.setAttribute("src", `./img/${imgName}.png`);
+  parent.append(elem);
+  return elem;
+};
 
-let sliderWrap = document.createElement("div");
-sliderWrap.className = "slider__wrap";
+let wrap = createElement("div", "wrap");
+let fieldWrap = createElement("div", "field-wrap", wrap);
+let fishka = createElement("img", "fishka-img", fieldWrap, "fishka");
+let cube = createElement("img", "cube-img", wrap, "1");
+let btnWrap = createElement("button", "btn-wrap", wrap);
 
-let sliderField = document.createElement("div");
-sliderField.className = "slider__field";
+let result = createElement("div", "result", wrap, undefined, "Start game!");
 
-let arrowLeft = document.createElement("button");
-arrowLeft.className = "slider__btn btn-left";
-arrowLeft.innerHTML = "<";
+store = {
+  countField: 8,
+  countBtn: 2,
+  moveStep: 130,
+  maxLeft: 945,
+  startLeftPosition: 35,
+  numberCube: 1,
+};
 
-let arrowRight = document.createElement("button");
-arrowRight.className = "slider__btn btn-rigth";
-arrowRight.innerHTML = ">";
+const {
+  countField,
+  countBtn,
+  moveStep,
+  maxLeft,
+  startLeftPosition,
+  numberCube,
+} = store;
 
-let ul = document.createElement("ul");
-ul.className = "slider-list";
-
-let sliderDots = document.createElement("div");
-sliderDots.className = "slider__dots";
-
-body.prepend(slider);
-slider.prepend(sliderField);
-sliderField.prepend(sliderWrap);
-sliderWrap.before(arrowLeft);
-sliderWrap.after(arrowRight);
-sliderWrap.prepend(ul);
-slider.append(sliderDots);
-
-for (let i = 0; i < slides.length; i++) {
-  let li = document.createElement("li");
-  li.className = "slider-list__item";
-
-  let img = document.createElement("img");
-  img.className = "item-img";
-  img.setAttribute("src", slides[i]);
-
-  let dots = document.createElement("button");
-  dots.className = "slider__dots--item";
-
-  ul.prepend(li);
-  li.prepend(img);
-  sliderDots.prepend(dots);
+// генерация полей для передвижения фишки
+for (i = 0; i < countField; i++) {
+  createElement("div", "field", fieldWrap);
 }
 
-const buttons = document.querySelectorAll(".slider__btn");
-const items = document.querySelectorAll(".slider-list__item");
-const mover = document.querySelector(".slider-list");
-const dotsBtn = document.querySelectorAll(".slider__dots--item");
+// // генерация кнопок
+for (i = 0; i < countBtn; i++) {
+  createElement("button", "btn", btnWrap);
+}
 
-const dotsFirstActive = document
-  .querySelectorAll(".slider__dots--item")[0]
-  .classList.add("dots-active");
-
-let count = 0;
-items[count].classList.add("active");
-
-const moveRight = () => {
-  const active = mover.querySelector(".active");
-  const next = active.nextElementSibling;
-  const dotActive = document.querySelector(".dots-active");
-  const dotNext = dotActive.nextElementSibling;
-
-  let width = 0;
-  if (next) {
-    width = getComputedStyle(next).width;
-    count++;
-    active.classList.remove("active");
-    next.classList.add("active");
-    dotActive.classList.remove("dots-active");
-    dotNext.classList.add("dots-active");
-  } else {
-    count = 0;
-    active.classList.remove("active");
-    items[count].classList.add("active");
-    dotActive.classList.remove("dots-active");
-    dotsBtn[count].classList.add("dots-active");
-  }
-  mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
+const nameClassesBtn = (item, classBtn, text) => {
+  item.classList.add(classBtn);
+  item.innerHTML = text;
 };
 
-const moveLeft = () => {
-  const active = mover.querySelector(".active");
-  const prev = active.previousElementSibling;
-  const dotActive = document.querySelector(".dots-active");
-  const dotPrev = dotActive.previousElementSibling;
-  let width = getComputedStyle(items[0]).width;
-  if (prev) {
-    width = getComputedStyle(prev).width;
-    count--;
-    active.classList.remove("active");
-    prev.classList.add("active");
-    dotActive.classList.remove("dots-active");
-    dotPrev.classList.add("dots-active");
-  } else {
-    count = slides.length - 1;
-    active.classList.remove("active");
-    items[count].classList.add("active");
-    dotActive.classList.remove("dots-active");
-    dotsBtn[count].classList.add("dots-active");
+const addClassesToBtn = (elem, index) => {
+  switch (index) {
+    case 0:
+      nameClassesBtn(elem, "btn-go", "Go");
+      break;
+    case 1:
+      nameClassesBtn(elem, "btn-reset", "Reset");
+      break;
   }
-  mover.style.transform = `translateX(${-parseInt(width) * count}px)`;
 };
 
-buttons.forEach((button) => {
-  if (button.classList.contains("btn-rigth")) {
-    button.addEventListener("click", moveRight);
-  } else {
-    button.addEventListener("click", moveLeft);
-  }
-});
+let buttons = document.querySelectorAll(".btn");
+buttons.forEach(addClassesToBtn);
 
-dotsBtn.forEach((dot, index) => {
-  dot.addEventListener("click", () => {
-    let width = getComputedStyle(items[0]).width;
-    dotsBtn.forEach((elem) => {
-      elem.classList.remove("dots-active");
-    });
-    dot.classList.add("dots-active");
-    mover.style.transform = `translateX(${-parseInt(width) * index}px)`;
-  });
-});
+// рандомно находим значения
+let getRandomNumber = (min, max) => {
+  let random = Math.floor(Math.random() * (max - min + 1) + min);
+  return random;
+};
+
+// передача рандомного числа кубику
+const setNumberCube = () => {
+  let number = getRandomNumber(1, 6);
+  cube.src = `./img/${number}.png`;
+  return number;
+};
+
+// события
+let btnStart = document.querySelector(".btn-go");
+let btnReset = document.querySelector(".btn-reset");
+
+const goGame = () => {
+  let number = setNumberCube();
+  let fishkaLeft = parseInt(getComputedStyle(fishka).left);
+  let fishkaMover = fishkaLeft + number * moveStep;
+  if (fishkaMover > maxLeft) {
+    result.innerHTML = "Gave over. Try again!";
+  } else if (fishkaMover === maxLeft) {
+    result.innerHTML = "Gave over. You are a Winner!";
+    fishka.style.left = `${fishkaMover}px`;
+  } else {
+    fishka.style.left = `${fishkaMover}px`;
+  }
+};
+
+const resetGame = () => {
+  fishka.style.left = `${startLeftPosition}px`;
+  cube.src = `./img/${numberCube}.png`;
+  result.innerHTML = "Start game!";
+};
+
+btnStart.addEventListener("click", goGame);
+btnReset.addEventListener("click", resetGame);
