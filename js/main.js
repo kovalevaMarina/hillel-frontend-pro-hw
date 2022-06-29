@@ -29,6 +29,7 @@ store = {
   maxLeft: 945,
   startLeftPosition: 35,
   numberCube: 1,
+  isGameOver: false,
 };
 
 const {
@@ -38,6 +39,7 @@ const {
   maxLeft,
   startLeftPosition,
   numberCube,
+  isGameOver,
 } = store;
 
 // генерация полей для передвижения фишки
@@ -92,9 +94,11 @@ const goGame = () => {
   let fishkaMover = fishkaLeft + number * moveStep;
   if (fishkaMover > maxLeft) {
     result.innerHTML = "Gave over. Try again!";
+    btnStart.disabled = true;
   } else if (fishkaMover === maxLeft) {
     result.innerHTML = "Gave over. You are a Winner!";
     fishka.style.left = `${fishkaMover}px`;
+    btnStart.disabled = true;
   } else {
     fishka.style.left = `${fishkaMover}px`;
   }
@@ -104,6 +108,7 @@ const resetGame = () => {
   fishka.style.left = `${startLeftPosition}px`;
   cube.src = `./img/${numberCube}.png`;
   result.innerHTML = "Start game!";
+  btnStart.disabled = false;
 };
 
 btnStart.addEventListener("click", goGame);
