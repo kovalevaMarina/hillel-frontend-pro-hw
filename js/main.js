@@ -29,7 +29,6 @@ store = {
   maxLeft: 945,
   startLeftPosition: 35,
   numberCube: 1,
-  isGameOver: false,
 };
 
 const {
@@ -39,7 +38,6 @@ const {
   maxLeft,
   startLeftPosition,
   numberCube,
-  isGameOver,
 } = store;
 
 // генерация полей для передвижения фишки
