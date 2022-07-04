@@ -1,113 +1,105 @@
-let body = document.body;
+let container = document.querySelector(".container");
 
-const createElement = (
-  tag,
-  nameClass,
-  parent = body,
-  imgName = undefined,
-  text = undefined
-) => {
-  let elem = document.createElement(tag);
-  elem.className = nameClass;
-  if (text) elem.innerHTML = text;
-  if (imgName) elem.setAttribute("src", `./img/${imgName}.png`);
-  parent.append(elem);
-  return elem;
+const createElement = (tag, nameClass, text = undefined, parent) => {
+  let element = document.createElement(tag);
+  element.className = nameClass;
+  if (text) element.innerHTML = text;
+  parent.append(element);
+  return element;
 };
 
-let wrap = createElement("div", "wrap");
-let fieldWrap = createElement("div", "field-wrap", wrap);
-let fishka = createElement("img", "fishka-img", fieldWrap, "fishka");
-let cube = createElement("img", "cube-img", wrap, "1");
-let btnWrap = createElement("button", "btn-wrap", wrap);
-let result = createElement("div", "result", wrap, undefined, "Start game!");
+let userWrap = createElement("div", "user-wrap", undefined, container),
+  userTitle = createElement("h2", "user-title", "What is your name?", userWrap),
+  inputUserName = createElement("input", "user-name", undefined, userWrap),
+  btnSearch = createElement("button", "btn-search", "Search", userWrap);
 
-store = {
-  countField: 8,
-  countBtn: 2,
-  moveStep: 130,
-  maxLeft: 945,
-  startLeftPosition: 35,
-  numberCube: 1,
+let createMessagesDom = (tasks) => {
+  let toDoList = createElement("div", "todo-list", undefined, container),
+    createToDo = createElement("div", "create_todo", undefined, toDoList),
+    createTask = createElement("div", "create_task", undefined, toDoList),
+    inputTask = createElement("input", "message", undefined, createToDo),
+    btnAddTask = createElement("button", "btn_add", "Add", createToDo),
+    toDoTasksWrap = createElement("ul", "todo", undefined, createTask);
+
+  createElement("h1", "title-h1", "ToDo List", toDoList);
+  createElement("h2", "title-h2", "Tasks:", createTask);
+
+  inputTask.setAttribute("type", "text");
+  inputTask.setAttribute("placeholder", "What do you want to do?");
+
+  let displayMessage = "";
+  let addUserTaskInDom = (elem) => {
+    displayMessage += `
+      <li class="todo-item ${elem.done ? "done-task" : ""}" data-id=${elem.id}>
+        <p><span>${elem.id}.</span>${elem.task}</p>
+        <button class="btn-done ${elem.done ? "hidden" : ""}">done</button>
+      </li>
+    `;
+    toDoTasksWrap.innerHTML = displayMessage;
+
+    let btnCheck = createTask.querySelectorAll(".btn-done");
+    btnCheck.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        let elem = e.target;
+        let li = elem.closest("li");
+        let liId = li.dataset.id;
+        doneUserTask(inputUserName.value, liId);
+        li.classList.add("done-task");
+        elem.classList.add("hidden");
+      });
+    });
+  };
+
+  tasks.forEach(addUserTaskInDom);
+
+  btnAddTask.addEventListener("click", () => {
+    let liNodes = toDoTasksWrap.querySelectorAll(".todo-item");
+    let newToDo = {
+      task: inputTask.value,
+      id: liNodes.length + 1,
+      done: false,
+    };
+    addUserTask(inputUserName.value, newToDo);
+    addUserTaskInDom(newToDo, liNodes.length);
+  });
 };
 
-const {
-  countField,
-  countBtn,
-  moveStep,
-  maxLeft,
-  startLeftPosition,
-  numberCube,
-} = store;
-
-// генерация полей для передвижения фишки
-for (i = 0; i < countField; i++) {
-  createElement("div", "field", fieldWrap);
-}
-
-// // генерация кнопок
-for (i = 0; i < countBtn; i++) {
-  createElement("button", "btn", btnWrap);
-}
-
-const nameClassesBtn = (item, classBtn, text) => {
-  item.classList.add(classBtn);
-  item.innerHTML = text;
+let doneUserTask = (userName, taskId) => {
+  let userTasks = getUserTasks(userName);
+  let mapArr = userTasks.map((userTask) => {
+    if (userTask.id === parseInt(taskId)) {
+      userTask.done = true;
+    }
+    return userTask;
+  });
+  localStorage.setItem(userName, JSON.stringify(mapArr));
 };
 
-const addClassesToBtn = (elem, index) => {
-  switch (index) {
-    case 0:
-      nameClassesBtn(elem, "btn-go", "Go");
-      break;
-    case 1:
-      nameClassesBtn(elem, "btn-reset", "Reset");
-      break;
-  }
+let getUserTasks = (name) => {
+  return JSON.parse(localStorage.getItem(name));
 };
 
-let buttons = document.querySelectorAll(".btn");
-buttons.forEach(addClassesToBtn);
-
-// рандомно находим значения
-let getRandomNumber = (min, max) => {
-  let random = Math.floor(Math.random() * (max - min + 1) + min);
-  return random;
+let addUserTask = (nameUser, task) => {
+  let userTasks = getUserTasks(nameUser);
+  userTasks.push(task);
+  localStorage.setItem(nameUser, JSON.stringify(userTasks));
 };
 
-// передача рандомного числа кубику
-const setNumberCube = () => {
-  let number = getRandomNumber(1, 6);
-  cube.src = `./img/${number}.png`;
-  return number;
-};
-
-// события
-let btnStart = document.querySelector(".btn-go");
-let btnReset = document.querySelector(".btn-reset");
-
-const goGame = () => {
-  let number = setNumberCube();
-  let fishkaLeft = parseInt(getComputedStyle(fishka).left);
-  let fishkaMover = fishkaLeft + number * moveStep;
-  if (fishkaMover > maxLeft) {
-    result.innerHTML = "Gave over. Try again!";
-    btnStart.disabled = true;
-  } else if (fishkaMover === maxLeft) {
-    result.innerHTML = "Gave over. You are a Winner!";
-    fishka.style.left = `${fishkaMover}px`;
-    btnStart.disabled = true;
-  } else {
-    fishka.style.left = `${fishkaMover}px`;
-  }
-};
-
-const resetGame = () => {
-  fishka.style.left = `${startLeftPosition}px`;
-  cube.src = `./img/${numberCube}.png`;
-  result.innerHTML = "Start game!";
-  btnStart.disabled = false;
-};
-
-btnStart.addEventListener("click", goGame);
-btnReset.addEventListener("click", resetGame);
+btnSearch.addEventListener(
+  "click",
+  () => {
+    let value = inputUserName.value;
+    if (value === "") {
+      inputUserName.value = `Guest-${Date.now()}`;
+      value = inputUserName.value;
+    }
+    let tasks = getUserTasks(value);
+    if (tasks) {
+      createMessagesDom(tasks);
+    } else {
+      localStorage.setItem(value, JSON.stringify([]));
+      createMessagesDom([]);
+    }
+  },
+  { once: true }
+);
