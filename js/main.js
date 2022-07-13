@@ -1,105 +1,76 @@
-let container = document.querySelector(".container");
-
-const createElement = (tag, nameClass, text = undefined, parent) => {
-  let element = document.createElement(tag);
-  element.className = nameClass;
-  if (text) element.innerHTML = text;
-  parent.append(element);
-  return element;
+const status = {
+  200: true,
+  201: true,
+  203: true,
 };
 
-let userWrap = createElement("div", "user-wrap", undefined, container),
-  userTitle = createElement("h2", "user-title", "What is your name?", userWrap),
-  inputUserName = createElement("input", "user-name", undefined, userWrap),
-  btnSearch = createElement("button", "btn-search", "Search", userWrap);
+const store = {
+  pokemons: [],
+};
 
-let createMessagesDom = (tasks) => {
-  let toDoList = createElement("div", "todo-list", undefined, container),
-    createToDo = createElement("div", "create_todo", undefined, toDoList),
-    createTask = createElement("div", "create_task", undefined, toDoList),
-    inputTask = createElement("input", "message", undefined, createToDo),
-    btnAddTask = createElement("button", "btn_add", "Add", createToDo),
-    toDoTasksWrap = createElement("ul", "todo", undefined, createTask);
+const createElement = (tag, nameClass, parent, src = null, text = null) => {
+  let elem = document.createElement(tag);
+  elem.className = nameClass;
+  if (src) {
+    elem.src = src;
+    elem.alt = text;
+    elem.title = text;
+  }
+  if (!src && text) {
+    elem.innerHTML = text;
+  }
+  parent.append(elem);
+  return elem;
+};
 
-  createElement("h1", "title-h1", "ToDo List", toDoList);
-  createElement("h2", "title-h2", "Tasks:", createTask);
+const container = document.querySelector(".container"),
+  cardWrap = document.querySelector(".card-wrap");
 
-  inputTask.setAttribute("type", "text");
-  inputTask.setAttribute("placeholder", "What do you want to do?");
+const url = "https://pokeapi.co/api/v2";
 
-  let displayMessage = "";
-  let addUserTaskInDom = (elem) => {
-    displayMessage += `
-      <li class="todo-item ${elem.done ? "done-task" : ""}" data-id=${elem.id}>
-        <p><span>${elem.id}.</span>${elem.task}</p>
-        <button class="btn-done ${elem.done ? "hidden" : ""}">done</button>
-      </li>
-    `;
-    toDoTasksWrap.innerHTML = displayMessage;
-
-    let btnCheck = createTask.querySelectorAll(".btn-done");
-    btnCheck.forEach((item) => {
-      item.addEventListener("click", (e) => {
-        let elem = e.target;
-        let li = elem.closest("li");
-        let liId = li.dataset.id;
-        doneUserTask(inputUserName.value, liId);
-        li.classList.add("done-task");
-        elem.classList.add("hidden");
+// список всех Pokemons
+const getNamePokemon = () => {
+  fetch(`${url}/pokemon`).then((res) => {
+    res.json().then((allpokemons) => {
+      const { results } = allpokemons;
+      results.forEach((pokemon) => {
+        fetchPokemonData(pokemon);
       });
     });
-  };
-
-  tasks.forEach(addUserTaskInDom);
-
-  btnAddTask.addEventListener("click", () => {
-    let liNodes = toDoTasksWrap.querySelectorAll(".todo-item");
-    let newToDo = {
-      task: inputTask.value,
-      id: liNodes.length + 1,
-      done: false,
-    };
-    addUserTask(inputUserName.value, newToDo);
-    addUserTaskInDom(newToDo, liNodes.length);
   });
 };
 
-let doneUserTask = (userName, taskId) => {
-  let userTasks = getUserTasks(userName);
-  let mapArr = userTasks.map((userTask) => {
-    if (userTask.id === parseInt(taskId)) {
-      userTask.done = true;
-    }
-    return userTask;
+// выводим id по каждому Pokemons
+const fetchPokemonData = (pokemon) => {
+  let urlData = pokemon.url;
+  fetch(urlData).then((result) => {
+    result.json().then((pokeData) => {
+      addPokeDataToStore(pokeData);
+      renderPokemons(pokeData);
+    });
   });
-  localStorage.setItem(userName, JSON.stringify(mapArr));
 };
 
-let getUserTasks = (name) => {
-  return JSON.parse(localStorage.getItem(name));
+const addPokeDataToStore = (pokeData) => {
+  store.pokemons.push(pokeData);
 };
 
-let addUserTask = (nameUser, task) => {
-  let userTasks = getUserTasks(nameUser);
-  userTasks.push(task);
-  localStorage.setItem(nameUser, JSON.stringify(userTasks));
+const renderPokemons = (pokeData) => {
+  const { sprites = {} } = pokeData;
+  const { front_default } = sprites;
+  const card = createElement("div", "card", cardWrap);
+  createElement("h3", "title-h3", card, null, pokeData.name);
+  createElement("p", "card-num", card, null, `#${pokeData.id}`);
+
+  createPokeImg(front_default, card, pokeData.name);
 };
 
-btnSearch.addEventListener(
-  "click",
-  () => {
-    let value = inputUserName.value;
-    if (value === "") {
-      inputUserName.value = `Guest-${Date.now()}`;
-      value = inputUserName.value;
-    }
-    let tasks = getUserTasks(value);
-    if (tasks) {
-      createMessagesDom(tasks);
-    } else {
-      localStorage.setItem(value, JSON.stringify([]));
-      createMessagesDom([]);
-    }
-  },
-  { once: true }
-);
+// выводим картинку по каждому Pokemons
+const createPokeImg = (srcImage, wrapper, pokeName) => {
+  const cardImgWrap = createElement("div", "card-img_wrap", wrapper);
+  createElement("img", "card-img", cardImgWrap, srcImage, pokeName);
+};
+
+Promise.all([getNamePokemon()]).then(() => {
+  console.log(store.pokemons);
+});

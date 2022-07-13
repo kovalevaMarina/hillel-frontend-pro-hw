@@ -1,15 +1,8 @@
-:root {
-  --darkBlue: #1e3d59;
-  --ivory: #f5f0e1;
-  --orange: #ff6e40;
-  --yellow: #ffc13b;
-}
-
 *, html, body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 button {
@@ -17,115 +10,36 @@ button {
   border: none;
 }
 
-input {
-  outline: none;
-}
-
 li {
   list-style-type: none;
 }
 
 .container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.main-wrap {
+  height: 100vh;
+}
+
+.header {
+  padding: 10px 0;
+  background-color: #3B57A1;
+}
+
+.card-wrap {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 140px;
   padding: 20px;
-  gap: 30px;
-  min-height: 100vh;
-  background-color: var(--darkBlue);
-}
-
-.todo-list,
-.user-wrap {
-  display: flex;
-  flex-direction: column;
-  max-width: 600px;
-  background-color: var(--ivory);
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px 0  var(--ivory)e1;
-}
-
-.user-name {
-  margin-bottom: 20px;
-  padding: 5px;
-  border: 1px solid var(--darkBlue);
+  gap: 10px;
 }
 
 .title-h1 {
-  order: -1;
-  font-size: 50px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: var(--darkBlue)
-}
-
-.create_todo {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.create_task {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.message {
-  width: 400px;
-  padding: 10px;
-  margin-right: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--darkBlue);
-}
-
-.message:focus,
-.user-name:focus  {
-  border: 1px solid var(--orange);
-}
-
-.btn_add,
-.btn-search {
-  font-size: 18px;
-  padding: 10px 20px;
-  background-color: var(--orange);
-  border: none;
-  border-radius: 5px;
-}
-
-.title-h2,
-.user-title {
-  margin-bottom: 20px;
-  color: var(--darkBlue);
-}
-
-.todo-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 5px;
-  background-color: rgba(30,61,89, 0.8);
-  margin-bottom: 8px;
-  padding: 10px 14px;
-  color: var(--ivory);
-}
-
-.todo-item span {
-  margin-right: 10px;
-}
-
-.btn-done {
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 5px;
-  background-color: var(--yellow);
-  padding: 10px 20px;
-}
-
-.done-task {
-  text-decoration: line-through;
-}
-
-.hidden {
-  display: none;
+  font-weight: 700;
+  color: #ffffff;
 }

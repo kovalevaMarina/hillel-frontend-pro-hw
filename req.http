@@ -1,0 +1,11 @@
+GET https://pokeapi.co/api/v2/pokemon/
+
+###
+
+GET https://pokeapi.co/api/v2/pokemon/ivysaur
+
+###
+GET https://pokeapi.co/api/v2/evolution-chain/1
+
+###
+GET https://pokeapi.co/api/v2/type/12/
