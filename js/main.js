@@ -30,14 +30,20 @@ const url = "https://pokeapi.co/api/v2";
 
 // список всех Pokemons
 const getNamePokemon = () => {
-  fetch(`${url}/pokemon`).then((res) => {
-    res.json().then((allpokemons) => {
-      const { results } = allpokemons;
-      results.forEach((pokemon) => {
-        fetchPokemonData(pokemon);
-      });
+  return fetch(`${url}/pokemon`)
+    .then((res) => res.json())
+    .then((data) => {
+      return Promise.all(
+        data.results.map((pokemon) => {
+          return fetch(pokemon.url)
+            .then((res) => res.json())
+            .then((json) => {
+              store.pokemons.push(json);
+              return json;
+            });
+        })
+      );
     });
-  });
 };
 
 // выводим id по каждому Pokemons
@@ -46,7 +52,6 @@ const fetchPokemonData = (pokemon) => {
   fetch(urlData).then((result) => {
     result.json().then((pokeData) => {
       addPokeDataToStore(pokeData);
-      renderPokemons(pokeData);
     });
   });
 };
@@ -55,14 +60,16 @@ const addPokeDataToStore = (pokeData) => {
   store.pokemons.push(pokeData);
 };
 
-const renderPokemons = (pokeData) => {
-  const { sprites = {} } = pokeData;
-  const { front_default } = sprites;
-  const card = createElement("div", "card", cardWrap);
-  createElement("h3", "title-h3", card, null, pokeData.name);
-  createElement("p", "card-num", card, null, `#${pokeData.id}`);
+const renderPokemons = () => {
+  store.pokemons.forEach((pokeData) => {
+    const { sprites = {} } = pokeData;
+    const { front_default } = sprites;
+    const card = createElement("div", "card", cardWrap);
+    createElement("h3", "title-h3", card, null, pokeData.name);
+    createElement("p", "card-num", card, null, `#${pokeData.id}`);
 
-  createPokeImg(front_default, card, pokeData.name);
+    createPokeImg(front_default, card, pokeData.name);
+  });
 };
 
 // выводим картинку по каждому Pokemons
@@ -71,6 +78,6 @@ const createPokeImg = (srcImage, wrapper, pokeName) => {
   createElement("img", "card-img", cardImgWrap, srcImage, pokeName);
 };
 
-Promise.all([getNamePokemon()]).then(() => {
-  console.log(store.pokemons);
+getNamePokemon().then(() => {
+  renderPokemons();
 });
