@@ -11,21 +11,22 @@ button {
 }
 
 li {
-  list-style-type: none;
+  list-style: none;
 }
 
 .container {
-  max-width: 886px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .main-wrap {
-  height: 100vh;
+  min-height: 100vh;
 }
 
-.header {
+.title-wrap {
   padding: 10px 0;
   background-color: #3B57A1;
+  margin-bottom: 20px;
 }
 
 .card-wrap {
@@ -34,18 +35,31 @@ li {
   margin: -5px;
 }
 
+.card-list_wrap {
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.card-list_item {
+  font-weight: 400;
+}
+
 .card {
-  width: 169px;
+  width: 192px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 20px 10px;
   gap: 10px;
   margin: 5px;
   background-color: rgba(58,121,196, 0.4);
 }
 
 .title-h1 {
+  width: 886px;
+  text-align: left;
+  margin: 0 auto;
   font-weight: 700;
   color: #ffffff;
 }
@@ -64,4 +78,84 @@ li {
 .card-img_wrap {
   background-color: white;
   border-radius: 50%;
+}
+
+.btn-favorite {
+  width: 21px;
+  height: 21px;
+  color: #C60000;
+  border-radius: 5px;
+  margin-right: 70px;
+  border: 1px solid #C60000;
+  transition: all .3s;
+}
+
+.btn-evolution {
+  transition: all .3s;
+  background-color: #3B57A1;
+  color: #ffffff;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+
+.btn-evolution:hover {
+  opacity: 0.6;
+}
+
+.btn-favorite:hover {
+  color: #ffffff;
+  background-color: #C60000;
+}
+
+.title-h4 {
+  font-size: 13px;
+}
+
+.title-h4 span {
+  font-weight: 400;
+}
+
+.btns-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.btn-pag {
+  background-color: #E3BD63;
+  padding: 5px 10px;
+  color: #000000;
+  font-weight: 700;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition: all .3s;
+}
+
+.btn-pag:hover {
+  background-color: transparent;
+  border: 1px solid #000000;
+}
+
+.title-h3 {
+  text-align: center;
+}
+
+.btns-types_wrap,
+.btns-region_wrap {
+  margin: 20px 0;
+}
+
+.btn-type,
+.btn-region {
+  margin: 5px 10px 5px 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #EDEDF0;
+}
+
+.txt-evol {
+  text-align: center;
+  font-size: 16px;
 }
