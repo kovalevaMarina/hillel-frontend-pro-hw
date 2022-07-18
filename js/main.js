@@ -4,6 +4,20 @@ const pagination = {
   page: 1,
 };
 
+// local storage
+const getFavourite = (id) => {
+  return localStorage.getItem(id);
+};
+
+const addFavourite = (id, name) => {
+  localStorage.setItem(id, name);
+};
+
+const removeFavourite = (id) => {
+  localStorage.removeItem(id);
+};
+
+// main code
 const createElement = (tag, nameClass, parent, src = null, text = null) => {
   let elem = document.createElement(tag);
   elem.className = nameClass;
@@ -52,7 +66,6 @@ const getPokemons = () => {
       });
     });
 };
-
 getPokemons();
 
 // выводим id по каждому Pokemons
@@ -85,14 +98,19 @@ const fetchPokemonData = (pokemon) => {
                   arrEvol.push(chain.species.name);
                 };
                 getPokeEvol(chain);
-                let cardElem = document.querySelector(".card");
-                createElement(
-                  "p",
-                  "txt-evol",
-                  cardElem,
-                  null,
-                  arrEvol.join(", ")
+                let txtEvolWrap = document.querySelector(
+                  `[data-evol="${pokeData.id}"]`
                 );
+                let txtEvol = txtEvolWrap.querySelector(".txt-evol");
+                txtEvol
+                  ? (txtEvolWrap.innerHTML = "")
+                  : createElement(
+                      "p",
+                      "txt-evol",
+                      txtEvolWrap,
+                      null,
+                      arrEvol.join(", ")
+                    );
               });
           });
         });
@@ -129,7 +147,33 @@ const renderPokemon = (pokeData, srcImage) => {
 
   const btnWrap = createElement("div", "btn-wrap", card);
 
-  createElement("button", "btn-favorite", btnWrap, null, `&#10084`);
+  const btnFavorite = createElement(
+    "button",
+    "btn-favorite",
+    btnWrap,
+    null,
+    `&#10084`
+  );
+
+  if (getFavourite(pokeData.id)) {
+    card.classList.add("favorite-card");
+    btnFavorite.classList.add("btn-favorite-active");
+  }
+
+  btnFavorite.addEventListener("click", (e) => {
+    let elemBtn = e.target;
+    let cardElem = elemBtn.closest(".card");
+    if (getFavourite(pokeData.id)) {
+      removeFavourite(pokeData.id);
+      card.classList.remove("favorite-card");
+      btnFavorite.classList.remove("btn-favorite-active");
+    } else {
+      addFavourite(pokeData.id, pokeData.name);
+      cardElem.classList.add("favorite-card");
+      elemBtn.classList.add("btn-favorite-active");
+    }
+  });
+
   const btnEvolution = createElement(
     "button",
     "btn-evolution",
@@ -138,6 +182,9 @@ const renderPokemon = (pokeData, srcImage) => {
     "Evolution"
   );
   btnEvolution.setAttribute("data-id", pokeData.id);
+
+  const evolWrap = createElement("div", "txt-evol_wrap", card);
+  evolWrap.setAttribute("data-evol", pokeData.id);
 };
 
 // выводим картинку по каждому Pokemons
@@ -190,6 +237,7 @@ const fetchPokemonTypes = () => {
           type.name
         );
         btnsType.addEventListener("click", (e) => {
+          btnsPagWrap.innerHTML = "";
           cardWrap.innerHTML = "";
           let btnType = e.target;
           btnType.innerHTML = `&#10003; ${type.name}`;
@@ -230,6 +278,7 @@ const fetchPokemonRegion = () => {
         );
         btnsRegion.addEventListener("click", (e) => {
           cardWrap.innerHTML = "";
+          btnsPagWrap.innerHTML = "";
           let btnsRegion = e.target;
           btnsRegion.innerHTML = `&#10003; ${region.name}`;
           fetch(region.url)
@@ -254,5 +303,3 @@ const fetchPokemonRegion = () => {
     });
 };
 fetchPokemonRegion();
-
-// вывод всех эволюций
