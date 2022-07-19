@@ -2,30 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hometask JS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <title>Поле Чудес!</title>
     <link rel="stylesheet" href="./css/style.css" />
-    <script defer src="./js/main.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/jquery-3.3.1.min.js"></script>
   </head>
   <body>
-    <div class="main-wrap">
-      <div class="title-wrap">
-          <h1 class="title-h1">Scroll down to see all Pokemons!</h1>
-        </div>
-      </header>
-      <div class="container">
-        <img class="main-img" src="./img/title-main.png" alt="Pokemon" />
-        <div class="btns-types_wrap"></div>
-        <div class="btns-region_wrap"></div>
-        <div class="card-wrap"></div>
-      </div>
+    <ul class="wrapLetters">
+      <li class="itemLetter"></li>
+    </ul>
+    <div class="wrapBaraban">
+      <p class="score">0</p>
+      <img src="./img/foto.png" alt="baraban" class="baraban" />
+      <a href="#" class="roll"></a>
     </div>
+    <p class="wrapQuest">
+      Что в России на первом месте, а во Франции на втором?
+    </p>
+    <div class="contEnter">
+      <input type="text" class="myLetter" placeholder="Введите букву" />
+      <a href="#" class="send">Назвать букву</a>
+    </div>
+    <div class="persone">
+      <p class="yakubovichSay">Крутите барабан</p>
+    </div>
+    <p class="timer">10</p>
   </body>
 </html>
