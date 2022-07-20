@@ -101,6 +101,7 @@ $(document).ready(function () {
   // крутить барабан
   function spinDrum(e) {
     e.preventDefault();
+    opt.timerIntervalsIds.forEach(clearInterval);
     $(".timer").text(10);
     $(".yakubovichSay").text("");
     let dok = 16 - opt.cell;
@@ -110,7 +111,7 @@ $(document).ready(function () {
     $(".baraban").animate(
       { textIndent: opt.proc },
       {
-        duration: 100,
+        duration: 5000,
         complete: function () {
           switch (opt.cell) {
             case 3:
@@ -180,5 +181,7 @@ $(document).ready(function () {
     opt.timerIntervalsIds.forEach(clearInterval);
     $(".send").prop("disabled", true);
     $(".yakubovichSay").text("Игра окончена! Ваш результат:" + opt.score);
+    $(".score").text(0);
+    opt.score = 0;
   };
 });
