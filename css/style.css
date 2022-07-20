@@ -9,7 +9,7 @@ body{ width: 100%; height: 100vh; background: -webkit-radial-gradient(top center
 .contEnter{display: flex; justify-content: center; align-items: center; margin-top: 20px;}
 .myLetter{ padding: 20px; background: #fff; border: none}
 .myLetter:focus{ box-shadow: inset 0 0 10px #000}
-.send{ padding: 20px; background: #000;  color: #fff; text-decoration: none;}
+.send{ padding: 20px; background: #000;  color: #fff; text-decoration: none; cursor: pointer; border: none;}
 .score{ width: 194px; height: 164px; background: url(../img/schet.png) no-repeat; padding: 65px 0 0 24px; text-align: center; color: #fff; font-size: 50px; transition: .5s}
 .roll{width: 194px; height: 164px; background: url(../img/roll.png) no-repeat;}
 .roll:hover, .send:hover{ filter: drop-shadow(0 0 10px #fff)}
