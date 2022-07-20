@@ -14,5 +14,5 @@ body{ width: 100%; height: 100vh; background: -webkit-radial-gradient(top center
 .roll{width: 194px; height: 164px; background: url(../img/roll.png) no-repeat;}
 .roll:hover, .send:hover{ filter: drop-shadow(0 0 10px #fff)}
 .persone{width: 374px; height: 330px; background: url(../img/yakubovich.png) no-repeat; position: absolute; right: 50px; bottom: 0px; padding: 45px 187px 141px 5px;}
-.yakubovichSay{display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;text-transform: uppercase}
+.yakubovichSay{display: flex; justify-content: center; align-items: center; height: 100%; width: 100%;text-transform: uppercase;text-align: center;}
 .timer{display: flex; justify-content: center; align-items: center;width: 78px; height: 90px; background: url(../img/timer.png) no-repeat; position: absolute; left: 50px; bottom: 20px; padding-top:8px; color: #fff; font-size: 24px;}
