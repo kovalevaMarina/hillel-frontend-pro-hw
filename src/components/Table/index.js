@@ -26,13 +26,10 @@ const Table = () => {
     </div>
   `;
   const dataTable = new MDCDataTable(document.querySelector(".mdc-data-table"));
+  const { content } = dataTable;
 
   students.forEach((student) => {
-    const tableRow = createElement(
-      "tr",
-      "mdc-data-table__row",
-      dataTable.content
-    );
+    const tableRow = createElement("tr", "mdc-data-table__row", content);
     tableRow.innerHTML = `
     <th class="mdc-data-table__cell" scope="row">${student.name}</th>
     <td class="mdc-data-table__cell mdc-data-table__cell--numeric">${
