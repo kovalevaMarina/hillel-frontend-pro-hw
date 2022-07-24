@@ -3,6 +3,7 @@
 @use "@material/data-table/data-table";
 @import "normalize.scss";
 @import "style.scss";
+@import "../components/Table/main.scss";
 @include checkbox.core-styles;
 // @include icon-button.core-styles;
 @include data-table.core-styles;

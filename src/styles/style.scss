@@ -5,3 +5,14 @@
   text-decoration: none;
   box-sizing: border-box;
 }
+
+#root {
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 15px;
+  font-family: 'Albert Sans', sans-serif;
+}
