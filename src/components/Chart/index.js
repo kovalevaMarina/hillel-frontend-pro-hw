@@ -79,6 +79,6 @@ const ChartData = () => {
 
   Chart.register(BarController, LinearScale, CategoryScale, BarElement, Title);
 
-  const myChart = new Chart(document.getElementById("myChart"), config);
+  new Chart(document.getElementById("myChart"), config);
 };
 export default ChartData;
